@@ -1,0 +1,761 @@
+/* Importar tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Importar la fuente Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+:root {
+  --cameo: #D8B393;
+  --nile-blue: #1A3A4D;
+  --camelot: #892F50;
+  --paarl: #AD642E;
+}
+
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+
+select.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched,
+input.ng-valid.ng-touched {
+  border: 2px solid #93a045 !important
+}
+
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+input.ng-invalid.ng-touched {
+  border: 2px solid rgb(200, 40, 40) !important
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed
+}
+
+
+.contenedor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  width: 97%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  margin: 0px 10px;
+  overflow-y: auto;
+  overflow-x: hidden
+}
+
+.body::-webkit-scrollbar {
+  width: 15px;
+  background-color: #1A3A4D;
+  border-radius: 10px;
+
+}
+
+.body::-webkit-scrollbar-thumb {
+  background-color: #892F50;
+  border-radius: 10px;
+}
+
+.material-icons{
+  margin: 0px;
+  padding: 0px;
+  font-size: 30px;
+}
+
+
+
+
+
+.tittle {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: var(--camelot);
+  font-size: 36px;
+  line-height: normal;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.description{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: var(--nile-blue);
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 600;
+
+}
+
+.description pre{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: var(--nile-blue);
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 400;
+  margin: 0px 0px 0px 20px;
+}
+
+
+.btnAccion {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cameo);
+  color: var(--nile-blue);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px 5px;
+}
+
+.btnRegistrar {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cameo);
+  color: var(--nile-blue);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btnRegistrar:hover {
+  background-color: var(--camelot);
+  color: var(--cameo);
+}
+
+
+
+form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+fieldset {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.subtitulo {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: var(--camelot);
+  font-size: 20px;
+  line-height: normal;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 5px 0px;
+}
+
+.form-group {
+  width: 100%;
+  color: var(--color-secundario);
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  margin: 10px;
+  flex-direction: row
+}
+
+.form-group .labels {
+  width: 30%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column
+}
+
+.form-group .labels label {
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 400;
+  padding-left: 10px;
+  color: var(--camelot)
+}
+
+.form-group .inputs {
+  width: 70%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column
+}
+
+.form-group .buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column
+}
+
+/* .form-group .inputs input[type=text],
+.form-group .inputs input[type=file],
+.form-group .inputs input[type=number],
+.form-group .inputs input[type=date],
+.form-group .inputs input[type=email],
+.form-group .inputs input[type=password],
+.form-group .inputs textarea,
+.form-group .inputs select {
+  width: 70%;
+  color: var(--color-primario);
+  text-align: center;
+  border-radius: 5px;
+  border: 2px solid var(--camelot);
+}
+
+.form-group .labels input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primario);
+  text-align: center;
+  border-radius: 5px;
+} */
+
+.boton-agregar {
+  background-color: #ee4326;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color .3s ease;
+  text-decoration: none
+}
+
+.btnEnviar {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cameo);
+  color: var(--nile-blue);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btnEliminar{
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cameo);
+  color: var(--nile-blue);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btnAgregar{
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cameo);
+  color: var(--nile-blue);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.modal{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.modalContainer{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cameo);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.labelsModal{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: var(--camelot);
+  font-size: 20px;
+  line-height: normal;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 5px 5px;
+}
+
+.inputsModal{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: var(--camelot);
+  font-size: 20px;
+  line-height: normal;
+  border: 2px solid var(--camelot);
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 5px 0px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .modalContainer{
+    width: 90%;
+  }
+
+  .form-group .inputs input[type=text],
+  .form-group .inputs input[type=file],
+  .form-group .inputs input[type=number],
+  .form-group .inputs input[type=date],
+  .form-group .inputs input[type=email],
+  .form-group .inputs input[type=password],
+  .form-group .inputs textarea,
+  .form-group .inputs select {
+    width: 100%;
+  }
+
+  .form-group .labels input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    color: var(--color-primario);
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .form-group .labels {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column
+  }
+
+  .form-group .inputs {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column
+  }
+
+  .form-group .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column
+  }
+
+  .btnEnviar {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnEliminar{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnAgregar{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .modal{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+  }
+
+  .modalContainer{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cameo);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .labelsModal{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--camelot);
+    font-size: 20px;
+    line-height: normal;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 5px 5px;
+  }
+
+  .inputsModal{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--camelot);
+    font-size: 20px;
+    line-height: normal;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 5px 0px;
+  }
+
+  .btnEnviarModal{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnEliminarModal{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnAgregarModal{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .modal{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+  }
+
+  .modalContainer{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cameo);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .labelsModal{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--camelot);
+    font-size: 20px;
+    line-height: normal;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 5px 5px;
+  }
+
+  .inputsModal{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--camelot);
+    font-size: 20px;
+    line-height: normal;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 5px 0px;
+  }
+
+  .btnEnviarModal{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnEliminarModal{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnAgregarModal{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cameo);
+    color: var(--nile-blue);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .modal{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+  }
+
+  .modalContainer{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cameo);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .labelsModal{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--camelot);
+    font-size: 20px;
+    line-height: normal;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 5px 5px;
+  }
+
+  .inputsModal{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--camelot);
+    font-size: 20px;
+    line-height: normal;
+    border: 2px solid var(--camelot);
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 5px 0px;
+  }
+
+
+}

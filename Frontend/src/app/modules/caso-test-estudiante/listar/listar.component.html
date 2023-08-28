@@ -1,0 +1,229 @@
+<div
+  class="transition ease-in-out delay-150 w-[95%] h-[90%] lg:h-[95%] lg:m-2 mx-4 my-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden duration-300 flex justify-center">
+  <!-- Este es el sniper  -->
+  <!-- ===================================================== -->
+  <div *ngIf="loading" class="flex items-center justify-center">
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+    <div class="flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <div class="animate-spin fast-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary"></div>
+        <div class="flex items-center mt-2">
+          <span class="text-xl font-bold mr-1">Cargando</span>
+          <span class="text-xl animate-bounce">...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===================================================== -->
+  <div *ngIf="!this.loading" class="w-full">
+    <div class="grid grid-cols-1 mx-4 text-center text-3xl font-bold text-camelot my-5">
+      Gestión de test estudiantes
+    </div>
+
+    <div class="grid grid-cols-1 mx-4">
+      <div class="flex">
+        <input [(ngModel)]="search"
+          class="mx-3 px-2 py-3 border-b-2 border-camelot rounded-lg bg-none text-camelot text-xs font-semibold tracking-wide lg:w-[20%] focus:outline-none focus:border-camelot-400"
+          placeholder="Buscar por cédula, nombre..." />
+      </div>
+    </div>
+
+
+    <div class="w-full lg:h-auto px-4 py-2 rounded-lg shadow hidden lg:block">
+      <table class="w-full lg:h-[92%] my-2">
+        <thead class="bg-nile-blue-200 border-b-2 border-nile-blue text-cameo">
+          <tr>
+            <th class="p-3 text-base font-semibold tracking-wide text-center">
+              Evaluador
+            </th>
+            <th class="p-3 text-base font-semibold tracking-wide text-center">
+              Estudiante
+            </th>
+            <th class="p-3 text-base font-semibold tracking-wide text-center">
+              Puntuación
+            </th>
+            <th class="p-3 text-base font-semibold tracking-wide text-center">
+              Puntuación Evaluador
+            </th>
+            <th class="p-3 text-base font-semibold tracking-wide text-center">
+              Fecha de Aplicación
+            </th>
+            <th class="p-3 text-sm font-semibold tracking-wide text-center">
+              <div class="flex justify-between">
+                <label class="flex items-center justify-center">Acciones</label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="this.tests.length > 0">
+          <tr *ngFor="let test of tests | filterTables : search">
+
+            <td class="p-3 text-base text-black-100 tracking-wide text-left">
+              <div class="flex flex-col">
+                <span><strong>CI:</strong> {{ test.ciDece }}</span>
+                <span><strong>Nombres:</strong> {{ test.nameDece }} {{ test.lastNameDece }}</span>
+              </div>
+            </td>
+            <td class="p-3 text-base text-black-100 tracking-wide text-left">
+              <div class="flex flex-col">
+                <span><strong>CI:</strong> {{ test.ciStudent }}</span>
+                <span><strong>Nombres:</strong> {{ test.nameStudent }} {{ test.lastNameStudent }}</span>
+              </div>
+            </td>
+
+            <td class="py-3 text-base text-black-100 tracking-wide justify-center items-center">
+              <div class="grid grid-cols-2 m-2">
+                <div
+                  class="col-span-1 text-xl text-camelot border-r-2 border-camelot justify-center items-center d-flex align-items-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center px-2">
+                    <label class="flex items-center justify-end px-2">
+                      {{ test.score }}
+                    </label>
+                  </div>
+                </div>
+                <div class="col-span-1 border-l-2 border-camelot justify-center items-center d-flex align-items-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center px-2">
+                    <button [ngClass]="test.id" name="{{ test.id }}" [disabled]="test.scoreEvaluator >= 1" type="button"
+                      class="cursor-pointer" (click)="scoreUpdate(test.id, 'plus')">
+                      <i
+                        class="fa fa-plus text-xl text-camelot font-extrabold border-2 border-camelot mx-1 rounded-md"></i>
+                    </button>
+                    <button [disabled]="test.scoreEvaluator <= 0" type="button" class="cursor-pointer"
+                      (click)="scoreUpdate(test.id, 'less')">
+                      <i
+                        class="fa fa-minus text-xl text-camelot font-extrabold border-2 border-camelot mx-1 rounded-md"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="p-3 text-base text-black-100 tracking-wide text-center">
+              {{ test.scoreEvaluator }}
+            </td>
+
+            <td class="p-3 text-base text-black-100 tracking-wide text-center">
+              {{ test.createAt | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="p-3 text-base text-black-100 tracking-wide text-center">
+              <!-- Boton eliminar icono de eliminar  -->
+              <button (click)="deleteTest(test.id)"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="w-full lg:h-auto px-4 py-2 rounded-lg lg:hidden">
+      <div
+        class="w-full h-full flex flex-col mb-2 border border-camelot rounded-lg hover:shadow-sm hover:shadow-camelot-300"
+        *ngFor="let test of tests | filterTables : search">
+        <div
+          class="w-full grid grid-cols-1 break-all items-center space-x-2 text-center text-camelot text-base px-2 font-bold underline">
+          DECE Evaluador
+        </div>
+        <!-- CI -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">CI:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ test.ciDece }}
+          </div>
+        </div>
+        <!-- Nombre -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">Nombre:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ test.nameDece }} {{ test.lastNameDece }}
+          </div>
+        </div>
+
+        <div
+          class="w-full grid grid-cols-1 break-all items-center space-x-2 text-center text-camelot text-base px-2 font-bold underline">
+          Estudiante
+        </div>
+        <!-- CI -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">CI:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ test.ciStudent }}
+          </div>
+        </div>
+        <!-- Nombre -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">Nombre:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ test.nameStudent }} {{ test.lastNameStudent }}
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">Estado:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ test.statusTestStudent }}
+          </div>
+        </div>
+
+        <!-- Puntaje -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">Puntúa:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            <div class="grid grid-cols-2 m-2">
+              <div
+                class="col-span-1 text-xl text-camelot border-r-2 border-camelot justify-start items-start d-flex align-items-start">
+                <div class="d-flex flex-column justify-content-center align-items-center px-2">
+                  <label class="flex items-center justify-end px-2">
+                    {{ test.score }}
+                  </label>
+                </div>
+              </div>
+              <div class="col-span-1 border-l-2 border-camelot justify-center items-center d-flex align-items-center">
+                <div class="d-flex flex-column justify-content-center align-items-center px-2">
+                  <button [ngClass]="test.id" name="{{ test.id }}" [disabled]="test.scoreEvaluator >= 1" type="button"
+                    class="cursor-pointer" (click)="scoreUpdate(test.id, 'plus')">
+                    <i
+                      class="fa fa-plus text-xl text-camelot font-extrabold border-2 border-camelot mx-1 rounded-md"></i>
+                  </button>
+                  <button [disabled]="test.scoreEvaluator <= 0" type="button" class="cursor-pointer"
+                    (click)="scoreUpdate(test.id, 'less')">
+                    <i
+                      class="fa fa-minus text-xl text-camelot font-extrabold border-2 border-camelot mx-1 rounded-md"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fecha Aplicación -->
+        <div class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2">
+          <div class="col-span-2 break-all font-bold text-camelot">
+            Fecha de Aplicación:
+          </div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ test.createAt | date : "dd/MM/yyyy" }}
+          </div>
+        </div>
+
+        <!-- Acciones -->
+
+        <div class="flex flex-row gap-2 justify-end my-2">
+          <button (click)="deleteTest(test.id)"
+            class="border-2 border-camelot text-sm text-nile-blue bg-cameo rounded-lg px-2 py-1 mr-2">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="tests.length === 0"
+      class="mx-4 flex bg-red-700 text-red text-xl rounded-lg font-bold items-center justify-center py-2 text-center">
+      No hay datos para mostrar
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,137 @@
+<!-- Este es el sniper  -->
+<div
+  *ngIf="loading"
+  class="fixed inset-0 flex items-center justify-center z-50"
+>
+  <div class="fixed inset-0 bg-black opacity-50"></div>
+  <div class="flex items-center justify-center">
+    <div class="flex flex-col items-center">
+      <div
+        class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary"
+      ></div>
+      <div class="flex items-center mt-2">
+        <span class="text-xl font-bold mr-1">Cargando</span>
+        <span class="text-xl animate-bounce">...</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Esta es la pagina  -->
+<div
+  *ngIf="!this.loading"
+  class="transition ease-in-out delay-150 w-[95%] h-[90%] lg:h-[95%] lg:m-2 mx-4 my-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden duration-300 flex flex-col items-center"
+>
+  <div
+    class="grid grid-cols-1 text-center text-3xl font-bold text-camelot py-4 items-center justify-center"
+  >
+    Evaluación del docente
+  </div>
+
+  <div class="w-[80%] grid grid-cols-1">
+    <div class="lg:grid lg:grid-cols-3 px-8 sm:flex">
+      <div class="col-span-1">
+        <div class="w-full flex text-camelot font-semibold">
+          INTRODUCCIÓN PARA EL/LA DOCENTE
+        </div>
+      </div>
+      <div class="col-span-2">
+        <div class="w-full flex text-nile-blue font-semibold text-justify sm:pl-2">
+          De los siguientes indicadores de riesgo presentes en niñas y niños
+          víctimas de violencia sexual, marque de acuerdo a la frecuencia con la
+          cual usted ha podido observar en la interacción con el niño o niña
+          referido en el contexto escolar; siendo 0 es nulo, 1 poco frecuente, 2
+          medianamente frecuente y 3 muy frecuente.
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:grid lg:grid-cols-3 px-8 sm:flex">
+      <div class="col-span-1">
+        <div class="w-full flex text-camelot font-semibold">ESTUDIANTE</div>
+      </div>
+      <div class="col-span-2">
+        <div class="w-full flex text-nile-blue font-semibold  sm:pl-2">
+          {{ this.caso?.nameStudent + " " + this.caso?.lastNameStudent }}
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:grid lg:grid-cols-3 px-8 sm:flex">
+      <div class="col-span-1">
+        <div class="w-full flex text-camelot font-semibold">
+          GRADO Y PARALELO
+        </div>
+      </div>
+      <div class="col-span-2 uppercase">
+        <div class="w-full flex text-nile-blue font-semibold sm:pl-2">
+          {{ this.caso?.grade + " " + this.caso?.parallel }}
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:grid lg:grid-cols-3 px-8 sm:flex">
+      <div class="col-span-1">
+        <div class="w-full flex text-camelot font-semibold ">
+          DOCENTE EVALUADOR
+        </div>
+      </div>
+      <div class="col-span-2">
+        <div class="w-full flex text-nile-blue font-semibold sm:pl-2">
+          {{ this.caso?.nameTeacher + " " + this.caso?.lastNameTeacher }}
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:grid lg:grid-cols-3 px-8 sm:flex">
+      <div class="col-span-1">
+        <div class="w-full flex text-camelot font-semibold">
+          FECHA DE APLICACIÓN
+        </div>
+      </div>
+      <div class="col-span-2">
+        <div class="w-full flex text-nile-blue font-semibold sm:pl-2">
+          {{ this.date | date : "dd/MM/yyyy" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -->
+  <form (ngSubmit)="create()" class="w-[80%]">
+    <fieldset class="w-full">
+      <div
+        *ngFor="let pregunta of test"
+        class="w-full my-2 border border-white rounded-lg p-2 flex flex-col lg:justify-start lg:gap-2 ml-4 first-letter shadow"
+      >
+        <label class="w-full text-nile-blue text-base font-bold flex flex-row">
+          {{ pregunta.nameQuestion }}</label
+        >
+        <select
+          class="w-full  flex flex-row"
+          [(ngModel)]="answers[pregunta._id]"
+          name="{{ pregunta._id }}"
+          (ngModelChange)="checkFormValidity()"
+        >
+          <option
+          class="text-black-300 font-semibold "
+            *ngFor="let opcion of pregunta.answer"
+            value="{{ opcion.valueAnswer }}"
+          >
+            {{ opcion.nameAnswer }}
+          </option>
+        </select>
+      </div>
+
+      <div class="w-full flex text-camelot text-lg mr-2 my-4 justify-end">
+        <!-- [disabled]="this.formInstitucion.form.invalid" -->
+        <button
+          type="submit"
+          class="border-2 border-camelot text-lg text-nile-blue bg-cameo rounded-lg px-2 py-2 my-3 hover:bg-nile-blue hover:text-cameo"
+          [disabled]="answersForm"
+        >
+          Registrar
+        </button>
+      </div>
+    </fieldset>
+  </form>
+</div>

@@ -1,0 +1,319 @@
+<div
+  class="w-[95%] lg:h-[95%] m-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden"
+>
+  <div
+    class="w-full lg:h-[10%] text-center text-3xl font-bold text-camelot py-4"
+  >
+    Editar Caso
+  </div>
+
+  <form
+    [formGroup]="this.formCaso.form"
+    (ngSubmit)="update()"
+    class="w-full lg:h-[93%] pb-2"
+  >
+    <fieldset class="w-full flex flex-col items-center">
+      <div
+        class="lg:w-[60%] w-[80%] h-[8%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        Datos del estudiante
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="ciStudent"> CI: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="ciStudent"
+            formControlName="ciStudent"
+            (mouseover)="
+              formCaso.form.get('ciStudent')?.invalid &&
+                formCaso.form.get('ciStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formCaso.form, 'ciStudent')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="nameStudent"> Nombre: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="nameStudent"
+            formControlName="nameStudent"
+            (mouseover)="
+              formCaso.form.get('nameStudent')?.invalid &&
+                formCaso.form.get('nameStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'nameStudent'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="lastNameStudent">Apellido:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="lastNameStudent"
+            formControlName="lastNameStudent"
+            (mouseover)="
+              formCaso.form.get('lastNameStudent')?.invalid &&
+                formCaso.form.get('lastNameStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'lastNameStudent'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="gender">Género:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <select
+            id="gender"
+            formControlName="gender"
+            (mouseover)="
+              formCaso.form.get('gender')?.invalid &&
+                formCaso.form.get('gender')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formCaso.form, 'gender')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          >
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+            <option value="O">Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="ageStudent">Edad:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="ageStudent"
+            formControlName="ageStudent"
+            (mouseover)="
+              formCaso.form.get('ageStudent')?.invalid &&
+                formCaso.form.get('ageStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formCaso.form, 'ageStudent')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="addressStudent">Dirección:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="addressStudent"
+            formControlName="addressStudent"
+            (mouseover)="
+              formCaso.form.get('addressStudent')?.invalid &&
+                formCaso.form.get('addressStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'addressStudent'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="phoneStudent">Teléfono</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="phoneStudent"
+            formControlName="phoneStudent"
+            (mouseover)="
+              formCaso.form.get('phoneStudent')?.invalid &&
+                formCaso.form.get('phoneStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'phoneStudent'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="gradeStudent">Grado:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="gradeStudent"
+            formControlName="gradeStudent"
+            (mouseover)="
+              formCaso.form.get('gradeStudent')?.invalid &&
+                formCaso.form.get('gradeStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'gradeStudent'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="parallelStudent">Paralelo:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="parallelStudent"
+            formControlName="parallelStudent"
+            (mouseover)="
+              formCaso.form.get('parallelStudent')?.invalid &&
+                formCaso.form.get('parallelStudent')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'parallelStudent'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <!-- Datos del docente -->
+      <div
+        class="lg:w-[60%] w-[80%] h-[8%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        Datos del docente
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="selectTeacher">Selecciona el docente:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <select
+            id="selectTeacher"
+            formControlName="selectTeacher"
+            (mouseover)="
+              formCaso.form.get('selectTeacher')?.invalid &&
+                formCaso.form.get('selectTeacher')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formCaso.form,
+                    'selectTeacher'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          >
+            <option [value]="0">Seleccione el docente</option>
+            <option *ngFor="let teacher of teachers" [value]="teacher.CI">
+              {{ teacher.name }} {{ teacher.lastName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid grid-cols-1 mb-4 my-4">
+        <div class="w-full flex text-camelot text-lg mr-2 mb-2 justify-end">
+          <!-- Cancelar (click)="cancel()" -->
+          <button
+            type="button"
+            (click)="cancel()"
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg lg:p-3 p-2 hover:bg-nile-blue hover:text-cameo mr-2"
+          >
+            Cancelar
+          </button>
+          <!-- [disabled]="this.formInstitucion.form.invalid "  -->
+          <button
+            type="submit"
+            [disabled]="this.formCaso.form.invalid"
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg lg:p-3 p-2 hover:bg-nile-blue hover:text-cameo"
+          >
+            Editar
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>

@@ -1,0 +1,17 @@
+{
+  "name": "dominio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:prod": "NODE_ENV=production pm2 start server.js --name my-app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "fs-extra": "^11.1.1"
+  }
+}

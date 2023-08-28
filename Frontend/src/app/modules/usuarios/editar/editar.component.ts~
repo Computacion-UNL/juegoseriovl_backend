@@ -1,0 +1,190 @@
+import { ClsFormUpdateUsuario, ClsFormUsuario } from '@/app/core/classForm/cls-form-usuario';
+import { UserRole } from '@/app/core/interfaces/interface-roleAdmin';
+import { UserService } from '@/app/shared/services/api/user.service';
+import { ControlErrorService } from '@/app/shared/services/utils/controlErrorService';
+import { NotificationsService } from '@/app/shared/services/utils/notifications.service';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-editar',
+  templateUrl: './editar.component.html',
+  styleUrls: ['./editar.component.css'],
+})
+export class EditarComponent {
+  public formUser = new ClsFormUpdateUsuario();
+  public loading = false;
+  public notMatch = false;
+  public user!: any;
+  private subscriptions: Subscription[] = [];
+
+  constructor(
+    public controlError: ControlErrorService,
+    public notification: NotificationsService,
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.formUser.form.reset();
+    this.getUser(this.route.snapshot.paramMap.get('id'));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  getUser(id: any) {
+    this.userService.getUser(id).subscribe((res) => {
+      console.log(res);
+      this.user = res.data;
+      if (this.user.role === 'ADMIN') {
+        this.setValues(this.user);
+      }
+    });
+  }
+
+  setValues(user: any) {
+    this.formUser.form.patchValue({
+      CI: user.ciUser,
+      name: user.nameUser,
+      lastName: user.lastNameUser,
+      address: user.addressUser,
+      phone: user.phoneUser,
+      email: user.emailUser,
+    });
+  }
+
+  changedStatusUser(id: string, action: boolean): void {
+    const iconMessage = action ? 'info' : 'warning';
+    const titleMessage = action ? 'Información' : 'Peligro';
+    const message = action
+      ? 'Estás seguro de activar este usuario?'
+      : 'Estás seguro de desactivar este usuario?';
+    const confirmButton = action ? 'Si, activar!' : 'Si, desactivar!';
+    const cancelButton = action ? 'No, cancelar!' : 'No, cancelar!';
+    const confirmMessage = action
+      ? 'Cuenta activada correctamente'
+      : 'Cuenta desactivada correctamente';
+    const errorMessage = action
+      ? 'No se pudo activar la cuenta'
+      : 'No se pudo desactivar la cuenta';
+
+    this.notification
+      .showConfirm(
+        iconMessage,
+        titleMessage,
+        message,
+        confirmButton,
+        cancelButton
+      )
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.subscriptions.push(
+            this.userService.changedStatusUser(id, action).subscribe(
+              (res) => {
+                console.log(res);
+                this.notification.showSuccess('Success', confirmMessage);
+                this.ngOnInit();
+              },
+              (err) => {
+                if (err.status === 0) {
+                  this.ngOnInit();
+                  this.notification.showError(
+                    'Error',
+                    'Error de conexión con el servidor'
+                  );
+                } else {
+                  this.ngOnInit();
+                  console.log(err.error);
+                  this.notification.showError('Error', errorMessage);
+                }
+              }
+            )
+          );
+        }
+      });
+  }
+
+  update() {
+    const { CI, name, lastName, address, phone, email,  } =
+      this.formUser.form.value;
+
+    const body = {
+      ciUser:CI,
+      name,
+      lastName,
+      address,
+      phone,
+      email,
+    };
+
+    this.userService.updateUser(this.user?.id, body).subscribe(
+      (res) => {
+        this.notification.showSuccess('Success', 'Usuario registrado');
+        this.router.navigate(['../../listar'], { relativeTo: this.route });
+      },
+      (err) => {
+        if (err.status === 0) {
+          this.notification.showError(
+            'Error',
+            'Error de conexión con el servidor'
+          );
+        } else {
+          this.notification.showError('Error', err.error.error);
+          console.log(err);
+        }
+      }
+    );
+  }
+
+  changePassword(id:any): void {
+    this.notification.showConfirm(
+      'question',
+      'Cambiar contraseña',
+      'Estas seguro de renovar la contraseña',
+      'Si, cambiar',
+      'No, cancelar'
+      )
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.subscriptions.push(
+            this.userService.changePasswordUser({id:id}).subscribe(
+              (res) => {
+                console.log(res);
+                this.notification.showSuccess('Success', 'Se ha enviado las credenciales al correo del usuario');
+                this.ngOnInit();
+              },
+              (err) => {
+                if (err.status === 0) {
+                  this.ngOnInit();
+                  this.notification.showError(
+                    'Error',
+                    'Error de conexión con el servidor'
+                  );
+                } else {
+                  this.ngOnInit();
+                  console.log(err.error);
+                  this.notification.showError('Error', 'No se pudo renovar la contraseña');
+                }
+              }
+            )
+          );
+        }
+      });
+  }
+
+  onCheckPassword() {
+    const password = this.formUser.form.get('password')?.value;
+    const confirmPassword = this.formUser.form.get(
+      'password_confirmation'
+    )?.value;
+    this.notMatch = password !== confirmPassword;
+  }
+
+  cancel() {
+    this.router.navigate(['../../listar'], { relativeTo: this.route });
+  }
+}

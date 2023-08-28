@@ -1,0 +1,261 @@
+<div
+  class="w-[95%] lg:h-[95%] m-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden"
+>
+  <div
+    class="w-full lg:h-[10%] text-center text-2xl font-bold text-camelot py-4 flex items-center justify-center uppercase"
+  >
+    Registro de preguntas del test para el docente
+  </div>
+  <!-- -->
+  <form
+    [formGroup]="this.formPreguntas.form"
+    (ngSubmit)="create()"
+    class="w-full lg:h-[90%] py-2"
+  >
+    <fieldset class="w-full flex flex-col items-center">
+      <!-- Datos de la pregunta -->
+      <div
+        class="lg:w-[60%] w-[80%] h-[8%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        Datos de la pregunta
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Ingrese la pregunta: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <textarea
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Ingrese la pregunta .."
+            (mouseover)="
+              formPreguntas.form.get('name')?.invalid &&
+                formPreguntas.form.get('name')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formPreguntas.form, 'name')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="description"> Tipo de pregunta: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="descripcion"
+            formControlName="description"
+            placeholder="Ingrese el tipo de pregunta .."
+            (mouseover)="
+              formPreguntas.form.get('description')?.invalid &&
+                formPreguntas.form.get('description')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(
+                    this.formPreguntas.form,
+                    'description'
+                  )
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-1 mb-4 grid-cols-1">
+        <div
+          class="w-2/6 col-span-1 bg-camelot text-white text-lg mt-2 py-1 px-2 text-center rounded-lg cursor-pointer"
+          (click)="openModal()"
+        >
+          <i class="fa fa-plus-circle icon-agregar" aria-hidden="true"></i>
+          <a
+            class="text-center text-white rounded-lg py-2 px-4 hover:bg-camelot-700"
+          >
+            Agregar respuesta
+          </a>
+        </div>
+      </div>
+
+      <div
+        *ngIf="listaRespuestas.length > 0"
+        class="lg:w-[40%] w-[80%] grid lg:grid-cols-1 mb-4 grid-cols-1"
+      >
+        <table class="w-full lg:h-[85%] my-2">
+          <thead
+            class="bg-nile-blue-200 border-b-2 border-nile-blue text-cameo"
+          >
+            <tr>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">
+                Nombre
+              </th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">
+                Tipo
+              </th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-center">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="bg-nile-blue-100 border-b border-nile-blue-200 text-camelot"
+              *ngFor="let respuesta of listaRespuestas"
+            >
+              <td class="p-3 text-sm text-black-100 tracking-wide text-left">
+                {{ respuesta.nameAnswer }}
+              </td>
+              <td class="p-3 text-sm text-black-100 tracking-wide text-left">
+                {{ respuesta.valueAnswer }}
+              </td>
+              <td class="p-3 text-sm text-black-100 tracking-wide text-center">
+                <button
+                  type="button"
+                  (click)="deleteRespuesta(respuesta.id)"
+                  class="border-2 border-camelot text-sm text-nile-blue bg-cameo rounded-lg px-2 py-1 mr-2"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        *ngIf="this.listaRespuestas.length == 0"
+        class="lg:w-[60%] w-[80%] grid lg:grid-cols-1 mb-4 grid-cols-1 text-center"
+      >
+        <div
+          class="bg-red-700 text-red-200 px-4 py-2 text-lg font-bold rounded-xl relative"
+          role="alert"
+        >
+          No hay respuestas registradas
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid grid-cols-1 mb-4">
+        <div class="w-full flex text-camelot text-lg mr-2 justify-end">
+          <!-- Cancelar -->
+          <button
+            type="button"
+            (click)="cancel()"
+            class="border-2 border-camelot text-lg text-nile-blue bg-cameo rounded-lg p-3 hover:bg-nile-blue hover:text-cameo mr-2"
+          >
+            Cancelar
+          </button>
+          <!-- Editar -->
+          <button
+            type="submit"
+            [disabled]="
+              formPreguntas.form.invalid || listaRespuestas.length <= 1
+            "
+            class="border-2 border-camelot text-lg text-nile-blue bg-cameo rounded-lg p-3 hover:bg-nile-blue hover:text-cameo"
+          >
+            Registrar
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div *ngIf="modalActivate" class="modal">
+  <div
+    class="lg:w-[25%] w-[80%] m-2 bg-cameo border-4 border-camelot rounded-2xl overflow-x-hidden flex flex-col items-center justify-center"
+  >
+    <div
+      class="w-full text-center text-2xl font-bold text-camelot py-6 flex items-center justify-center uppercase"
+    >
+      Respuestas
+    </div>
+    <form
+      [formGroup]="this.formRespuesta.form"
+      (ngSubmit)="addRespuesta()"
+      class="w-full py-4"
+    >
+      <fieldset class="w-full flex flex-col items-center">
+        <div class="grid lg:grid-cols-3 mb-4 grid-cols-1 items-center">
+          <div class="col-span-1">
+            <label for="nameAnswer" class="text-camelot font-semibold">Descripción:</label>
+          </div>
+          <div class="col-span-2">
+            <input
+              type="text"
+              id="nameAnswer"
+              formControlName="nameAn=swer"
+              (mouseover)="
+                formRespuesta.form.get('nameAnswer')?.invalid &&
+                  formRespuesta.form.get('nameAnswer')?.touched &&
+                  notification.showTooltip(
+                    controlError.getErrorMessage(
+                      this.formRespuesta.form,
+                      'nameAnswer'
+                    )
+                  )
+              "
+              (mouseout)="this.notification.close()"
+              class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+            />
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 mb-4 grid-cols-1 items-center">
+          <div class="col-span-1">
+            <label for="valueAnswer" class="text-camelot font-semibold">Valor:</label>
+          </div>
+          <div class="col-span-2">
+            <input
+              type="text"
+              id="valueAnswer"
+              formControlName="valueAnswer"
+              (mouseover)="
+                formRespuesta.form.get('valueAnswer')?.invalid &&
+                  formRespuesta.form.get('valueAnswer')?.touched &&
+                  notification.showTooltip(
+                    controlError.getErrorMessage(
+                      this.formRespuesta.form,
+                      'valueAnswer'
+                    )
+                  )
+              "
+              (mouseout)="this.notification.close()"
+              class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 mb-4">
+          <div
+            class="w-full flex text-camelot text-lg mr-2 mb-2 justify-end px-2"
+          >
+            <button
+              (click)="closeModal()"
+              type="button"
+              class="border-2 border-camelot text-lg text-nile-blue bg-cameo rounded-lg px-2 py-1 hover:bg-nile-blue hover:text-cameo mr-2"
+            >
+              Cancelar
+            </button>
+            <button
+              [disabled]="formRespuesta.form.invalid"
+              type="submit"
+              class="border-2 border-camelot text-lg text-nile-blue bg-cameo rounded-lg px-2 py-1 hover:bg-nile-blue hover:text-cameo mr-2"
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

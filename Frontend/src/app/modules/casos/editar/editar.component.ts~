@@ -1,0 +1,124 @@
+import { ClsFormCaso } from '@/app/core/classForm/cls-form-caso';
+import { AuthService } from '@/app/shared/services/api/auth.service';
+import { CasosService } from '@/app/shared/services/api/casos.service';
+import { DocenteService } from '@/app/shared/services/api/docente.service';
+import { ControlErrorService } from '@/app/shared/services/utils/controlErrorService';
+import { NotificationsService } from '@/app/shared/services/utils/notifications.service';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-editar',
+  templateUrl: './editar.component.html',
+  styleUrls: ['./editar.component.css'],
+})
+export class EditarComponent {
+  public formCaso = new ClsFormCaso();
+  public teachers: any[] = [];
+  public institution: any;
+  public id: any;
+  public caso:any;
+
+  constructor(
+    public controlError: ControlErrorService,
+    public notification: NotificationsService,
+    private teacherService: DocenteService,
+    private casoService: CasosService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.getCaso(this.id);
+    this.formCaso.form.reset();
+    this.institution = this.authService.getInstitution();
+    this.getTeachers();
+  }
+
+  getCaso(id: any) {
+      this.casoService.getCaso(id).subscribe(
+        (res)=>{
+          const {message, data } = res;
+          this.caso= data;
+          this.setValues(this.caso);
+          console.log(message);
+        }
+      )
+  }
+
+  setValues(caso:any){
+    this.formCaso.form.patchValue({
+      ciStudent: caso.ciStudent,
+      nameStudent: caso.nameStudent,
+      lastNameStudent: caso.lastNameStudent,
+      addressStudent: caso.addressStudent,
+      gender: caso.gender,
+      ageStudent: caso.ageStudent,
+      phoneStudent: caso.phoneStudent,
+      gradeStudent: caso.grade,
+      parallelStudent: caso.parallel,
+      selectTeacher: caso.ciTeacher,
+    })
+  }
+
+  update() {
+    const {
+      ciStudent,
+      nameStudent,
+      lastNameStudent,
+      addressStudent,
+      gender,
+      ageStudent,
+      phoneStudent,
+      gradeStudent,
+      parallelStudent,
+      selectTeacher,
+    } = this.formCaso.form.value;
+    console.log(selectTeacher)
+    if (selectTeacher === null || selectTeacher === '0') {
+      this.notification.showError('Error', 'Debe seleccionar un docente');
+      return;
+    }
+
+    const body = {
+      idDece: this.authService.getUserId(),
+      ciStudent,
+      nameStudent,
+      lastNameStudent,
+      addressStudent,
+      gender,
+      ageStudent,
+      phoneStudent,
+      gradeStudent,
+      parallelStudent,
+      ciTeacher: selectTeacher,
+      nameInstitution: this.authService.getInstitution(),
+    };
+
+    this.casoService.updateCaso(this.id, body).subscribe(
+      (res) => {
+        const { message} = res;
+        this.notification.showSuccess('Exito', message);
+        this.router.navigate(['casos/listar']);
+      },
+      (err) => {
+        this.notification.showError('Error', err.error.message);
+      }
+    );
+  }
+
+  getTeachers() {
+    this.teacherService.getTeachersInstitutions({data:this.authService.getInstitution()}).subscribe(
+    (res) => {
+      const { message, data } = res;
+      this.teachers = data;
+      console.log(message);
+    });
+  }
+ cancel() {
+    this.router.navigate(['../../listar']);
+  }
+
+}

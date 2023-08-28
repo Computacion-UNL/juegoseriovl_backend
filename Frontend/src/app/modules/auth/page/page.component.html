@@ -1,0 +1,160 @@
+<div
+  class="w-screen h-screen bg-cover bg-center"
+  [style.background-image]="'url(' + backgroundImage + ')'"
+>
+  <div
+    class="absolute top-0 left-0 w-screen h-screen bg-gold opacity-20 z-10"
+  ></div>
+
+  <div class="relative flex flex-col items-center justify-center h-full z-20">
+    <div
+      class="bg-gradient-to-bl from-gold via-hampton to-cooper-rost lg:w-[25%] md:w-1/2 sm:w-1/3 rounded-lg shadow-black-400 shadow-lg mx-4 border-3 border-camelot"
+    >
+      <form
+        [formGroup]="this.formLogin.form"
+        (ngSubmit)="sendLogin()"
+        class="px-6 py-6 w-full h-full"
+      >
+        <!-- Titulo -->
+        <div class="grid grid-cols-1 mt-2 mb-0 mx-7">
+          <div class="flex flex-col items-center justify-center">
+            <img
+              [src]="this.image"
+              alt="Ejemplo"
+              style="width: 75%;"
+            />
+            <h1
+              class="w-full text-camelot font-bold md:text-2xl text-xl uppercase text-center"
+            >
+              Bienvenidos
+            </h1>
+          </div>
+        </div>
+
+        <!-- Campo de usuario -->
+        <div
+          class="grid grid-cols-1 mt-5 mb-0 mx-7 items-center justify-center"
+        >
+          <label
+            class="uppercase md:text-sm text-xs text-camelot text-light font-semibold"
+            >Usuario:</label
+          >
+          <input
+            class="py-2 px-3 rounded-lg border-2 border-camelot-600 mt-1 focus:outline-none focus:ring-2 focus:ring-camelot-200 focus:border-transparent"
+            type="email"
+            placeholder="Usuario"
+            formControlName="email"
+            (focus)="onEmailInputFocus()"
+            title="Usuario incorrecto"
+          />
+          <!-- alerta para la validación del campo email -->
+          <div
+            *ngIf="
+              this.formLogin.form.get('email')?.invalid &&
+              this.formLogin.form.get('email')?.touched
+            "
+            class="w-full h-full text-red-200 text-xs rounded py-1 px-1 flex items-center justify-start"
+            role="alert"
+          >
+            <div
+              class="w-full h-full py-1"
+              *ngIf="this.formLogin.form.get('email')?.errors?.['email']"
+            >
+              <i class="fas fa-exclamation-triangle"></i>Correo electrónico
+              inválido
+            </div>
+            <div
+              class="w-full h-full py-1"
+              *ngIf="
+    this.formLogin.form.get('email')?.errors?.['required'] &&
+    this.formLogin.form.get('email')?.touched
+  "
+            >
+              <i class="fas fa-exclamation-triangle"></i>
+              Email requerido
+            </div>
+          </div>
+        </div>
+
+        <!-- input de contrase;a con icono de ver contrase;a -->
+        <div class="grid grid-cols-1 mt-2 mx-7">
+          <label
+            class="uppercase md:text-sm text-xs text-camelot text-light font-semibold"
+            >Contraseña</label
+          >
+          <input
+            class="py-2 px-3 rounded-lg border-2 border-camelot-600 mt-1 focus:outline-none focus:ring-2 focus:ring-camelot-200 focus:border-transparent"
+            type="password"
+            placeholder="Contraseña"
+            (focus)="onEmailInputFocus()"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+          />
+          <!-- alerta para la validación del campo password -->
+          <div
+            *ngIf="
+              this.formLogin.form.get('password')?.invalid &&
+              this.formLogin.form.get('password')?.touched
+            "
+            class="w-full h-full text-red-200 text-xs rounded py-1 px-1 flex items-center justify-start"
+            role="alert"
+          >
+            <div
+              class="w-full h-full py-1"
+              *ngIf="
+    this.formLogin.form.get('password')?.errors?.['required'] &&
+    this.formLogin.form.get('password')?.touched
+  "
+            >
+              <i class="fas fa-exclamation-triangle"></i>
+              Contraseña requerida
+            </div>
+          </div>
+
+          <div class="py-2 flex items-center justify-start">
+            <input
+              id="remember_me"
+              (change)="showPassword = !showPassword"
+              type="checkbox"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label for="remember_me" class="ml-2 block text-sm text-nile-blue">
+              Mostrar contraseña
+            </label>
+          </div>
+
+          <!-- Control de errores -->
+          <div
+            *ngIf="this.errorSession"
+            class="w-full h-full grid grid-cols-1 py-1 bg-red-700 text-red-200 text-xs rounded"
+            role="alert"
+          >
+            <div class="mx-3">
+              <i class="fas fa-exclamation-triangle"></i>
+              {{ this.errorMessage }}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 mt-2 mb-6 mx-7 items-start justify-start">
+          <div class="w-[100%] flex items-center justify-start">
+            <!-- Columna 1 (40%) -->
+            <a
+              class="w-[60%] text-sm pl-4 text-nile-blue hover:text-blue-700"
+              routerLink="/auth/recovery"
+              >Se te olvidó tu contraseña?</a
+            >
+            <!-- Columna 2 (60%) -->
+            <button
+              [disabled]="this.formLogin.form.invalid"
+              class="w-[40%] bg-bg-paarl hover:bg-hampton hover:border-gold hover:text-camelot border-camelot-200 border-2 text-nile-blue text-sm font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Iniciar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

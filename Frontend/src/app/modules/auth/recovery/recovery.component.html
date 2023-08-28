@@ -1,0 +1,358 @@
+<div class="w-full h-full">
+  <header
+    class="lg:w-full lg:h-[12%] bg-nile-blue text-center flex flex-col justify-center items-center"
+  >
+    <div class="text-cameo">
+      <h1 class="font-bold text-xl uppercase">Recuperar contraseña</h1>
+      <p class="text-base" *ngIf="!emailSent">
+        Ingresa tu correo electrónico y te enviaremos un código para que puedas
+        recuperar tu contraseña.
+      </p>
+      <p class="text-base" *ngIf="emailSent && !codeSent">
+        Ingresa el código que te enviamos a tu correo electrónico.
+      </p>
+      <p class="text-base" *ngIf="codeSent && codeValidate">
+        Ingresa tu nueva contraseña.
+      </p>
+    </div>
+  </header>
+
+  <div
+    class="w-full h-[88%] bg-gradient-to-bl from-gold via-hampton to-cooper-rost flex items-center justify-center"
+  >
+    <!-- Envia el correo para ser validado -->
+    <form
+      class="lg:w-2/6 lg:h-3/6 md:w-3/4 md:h-2/4 sm:w-3/4 sm:h-4/5 border-nile-blue-200 border-2 rounded-xl shadow-xl shadow-black-200 grid grid-cols-1"
+      *ngIf="!emailSent"
+      [formGroup]="this.recoverForm"
+      (ngSubmit)="sendRecover()"
+    >
+      <div
+        class="grid grid-cols-1 text-lg text-nile-blue uppercase text-center mx-4"
+      >
+        <h1
+          class="bg-gold bg-opacity-30 shadow-sm shadow-cooper-rost rounded-xl px-3 py-1 text-2xl"
+        >
+          Solicitar código
+        </h1>
+      </div>
+
+      <div class="grid grid-cols-1 mx-4">
+        <label class="text-nile-blue text-xl py-2 pr-2" for="email"
+          >Correo electrónico:
+        </label>
+        <input
+          class="py-3 border-1 border-black-100 rounded-xl pl-2 text-sm"
+          type="email"
+          formControlName="email"
+          (focus)="onEmailInputFocus()"
+          placeholder="Ingresa el correo electrónico"
+        />
+        <div
+          *ngIf="
+            this.recoverForm.get('email')?.invalid &&
+            this.recoverForm.get('email')?.touched
+          "
+          class="text-red-200 text-xs rounded py-1 flex px-1"
+          role="alert"
+        >
+          <div
+            class="flex items-center justify-start"
+            *ngIf="this.recoverForm.get('email')?.errors?.['email']"
+          >
+            <i class="fas fa-exclamation-triangle"></i>Correo electrónico
+            inválido
+          </div>
+          <div
+            class="flex items-center justify-start"
+            *ngIf="
+this.recoverForm.get('email')?.errors?.['required'] &&
+this.recoverForm.get('email')?.touched
+"
+          >
+            <i class="fas fa-exclamation-triangle pr-1"></i>
+            Email requerido
+          </div>
+        </div>
+        <div
+          *ngIf="this.error"
+          class="alert alert-danger"
+          role="alert"
+          style="color: red"
+        >
+          {{ this.errorMessage }}
+        </div>
+      </div>
+      <!-- Si error  es diferente de false y si errorMessage diferente de '' -->
+      <div class="grid grid-cols-2 mx-4 gap-1">
+        <!-- Este se divide en tres partes iguales -->
+        <div class="col-span-1 flex justify-center items-center">
+          <button
+            (click)="goBack()"
+            class="border-2 rounded-lg px-2 py-2 text-base text-nile-blue-200 font-bold border-nile-blue hover:bg-nile-blue hover:text-cameo"
+          >
+            Volver al inicio
+          </button>
+        </div>
+        <div class="col-span-1 flex justify-center items-center">
+          <button
+            [disabled]="recoverForm.invalid"
+            type="submit"
+            class="border-2 border-nile-blue rounded-lg py-2 px-2 text-base text-nile-blue flex items-end justify-end hover:text-cameo hover:bg-nile-blue-200"
+          >
+            Enviar código
+          </button>
+        </div>
+
+        <!--  -->
+      </div>
+    </form>
+
+    <!-- Envia el codigo para ser validado -->
+    <form
+      *ngIf="codeSent"
+      [formGroup]="this.formCode"
+      (ngSubmit)="validateCode()"
+      class="lg:w-2/6 lg:h-3/6 md:w-3/4 md:h-2/4 sm:w-3/4 sm:h-4/5 border-nile-blue-200 border-2 rounded-xl shadow-xl shadow-black-200 flex flex-col justify-center items-center"
+    >
+      <div
+        class="grid grid-cols-1 text-center text-base text-nile-blue-200 uppercase font-extrabold py-2"
+      >
+        <h1>Ingresa el código que te enviamos a tu correo electrónico.</h1>
+      </div>
+
+      <div
+        class="grid grid-cols-6 gap-2 text-base text-nile-blue-200 uppercase font-extrabold py-4"
+        id="recover"
+      >
+        <input
+          type="text"
+          class="text-nile-blue font-bold px-1 py-4 text-center rounded-lg"
+          id="code1"
+          formControlName="code1"
+          [ngClass]="{ 'placeholder-blink': emailSent }"
+          placeholder="-"
+          maxlength="1"
+          (keyup)="focus('code2', $event)"
+        />
+
+        <input
+          type="text"
+          class="text-nile-blue font-bold px-1 text-center rounded-lg"
+          id="code2"
+          formControlName="code2"
+          [ngClass]="{ 'placeholder-blink': emailSent }"
+          placeholder="-"
+          maxlength="1"
+          (keyup)="focus('code3', $event)"
+        />
+
+        <input
+          type="text"
+          class="text-nile-blue font-bold px-1 text-center rounded-lg"
+          id="code3"
+          formControlName="code3"
+          [ngClass]="{ 'placeholder-blink': emailSent }"
+          placeholder="-"
+          maxlength="1"
+          (keyup)="focus('code4', $event)"
+        />
+
+        <input
+          type="text"
+          class="text-nile-blue font-bold px-1 text-center rounded-lg"
+          id="code4"
+          formControlName="code4"
+          [ngClass]="{ 'placeholder-blink': emailSent }"
+          placeholder="-"
+          maxlength="1"
+          (keyup)="focus('code5', $event)"
+        />
+
+        <input
+          type="text"
+          class="text-nile-blue font-bold px-1 text-center rounded-lg"
+          id="code5"
+          formControlName="code5"
+          [ngClass]="{ 'placeholder-blink': emailSent }"
+          placeholder="-"
+          maxlength="1"
+          (keyup)="focus('code6', $event)"
+        />
+
+        <input
+          type="text"
+          class="text-nile-blue font-bold px-1 text-center rounded-lg"
+          id="code6"
+          formControlName="code6"
+          [ngClass]="{ 'placeholder-blink': emailSent }"
+          placeholder="-"
+          maxlength="1"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 py-2">
+        <div
+          *ngIf="this.error"
+          class="alert alert-danger text-red-500"
+          role="alert"
+        >
+          {{ this.errorMessage }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 py-2">
+        <div class="col-span-1">
+          <button
+            (click)="goBack()"
+            type="button"
+            class="border-2 border-nile-blue rounded-lg py-2 px-2 text-base text-nile-blue flex items-end justify-end hover:text-cameo hover:bg-nile-blue-200"
+          >
+            Volver al inicio
+          </button>
+        </div>
+        <div class="col-span-1">
+          <button
+            [disabled]="this.formCode.invalid"
+            type="submit"
+            class="border-2 border-nile-blue rounded-lg py-2 px-2 text-base text-nile-blue flex items-end justify-end hover:text-cameo hover:bg-nile-blue-200"
+          >
+            Verificar código
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Formulario para establecer una nueva contraseña -->
+    <!-- Formulario para establecer una nueva contraseña -->
+    <form
+      *ngIf="this.codeValidate"
+      [formGroup]="formPassword"
+      (ngSubmit)="savePassword()"
+      class="lg:w-2/6 lg:h-4/6 md:w-3/4 md:h-2/4 sm:w-3/4 sm:h-4/5 border-nile-blue-200 border-2 rounded-xl shadow-xl shadow-black-200 grid grid-cols-1 items-center justify-center"
+    >
+      <div
+        class="grid grid-cols-1 text-center text-nile-blue font-bold uppercase mx-4"
+      >
+        <h1
+          class="bg-gold bg-opacity-30 shadow-sm shadow-cooper-rost rounded-xl py-2"
+        >
+          Ingresa la nueva contraseña
+        </h1>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mx-4 items-start justify-center">
+        <div class="col-span-1 text-base font-extrabold text-nile-blue">
+          <label for="password">Nueva contraseña: </label>
+        </div>
+        <div class="col-span-1 pl-4 flex flex-col">
+          <input
+            type="password"
+            class="rounded-lg py-1 focus:outline-none focus:ring-2 focus:ring-camelot-200"
+            id="password"
+            (input)="verificarFortalezaContrasena()"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+          />
+          <div class="flex flex-auto py-1 text-xs justify-start items-center">
+            <div>
+              <label>Control de seguridad:</label>
+
+              <i
+                [style.color]="tieneMayusculas ? '#96A16F' : '#373737'"
+                class="fa fa-circle px-1 cursor-help"
+                [title]="
+                  tieneMayusculas
+                    ? 'Tiene mayúsculas'
+                    : 'Se requieren mayúsculas'
+                "
+              ></i>
+              <i
+                [style.color]="tieneMinusculas ? '#96A16F' : '#373737'"
+                class="fa fa-circle px-1 cursor-help"
+                [title]="
+                  tieneMinusculas
+                    ? 'Tiene minúsculas'
+                    : 'Se requieren minúsculas'
+                "
+              ></i>
+              <i
+                [style.color]="tieneNumeros ? '#96A16F' : '#373737'"
+                class="fa fa-circle px-1 cursor-help"
+                [title]="
+                  tieneNumeros ? 'Tiene números' : 'Se requieren números'
+                "
+              ></i>
+              <i
+                [style.color]="esLarga ? '#96A16F' : '#373737'"
+                class="fa fa-circle px-1 cursor-help"
+                [title]="
+                  esLarga
+                    ? 'Tiene más de 8 caracteres'
+                    : 'Se requieren más de 8 caracteres'
+                "
+              ></i>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-start">
+            <input
+              id="remember_me"
+              (change)="showPassword = !showPassword"
+              type="checkbox"
+              class="h-3 w-3 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label for="remember_me" class="ml-2 block text-xs text-nile-blue">
+              Mostrar contraseña
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mx-4 items-start justify-center">
+        <div class="col-span-1 text-base font-extrabold text-nile-blue">
+          <label for="repeatPassword">Repetir contraseña: </label>
+        </div>
+        <div class="col-span-1 pl-4 flex flex-col">
+          <input
+            type="password"
+            class="rounded-lg py-1 focus:outline-none focus:ring-2 focus:ring-camelot-200"
+            id="repeatPassword"
+            formControlName="repeatPassword"
+            [type]="showPassword2 ? 'text' : 'password'"
+          />
+          <div class="flex items-center justify-start py-2">
+            <input
+              id="remember"
+              (change)="showPassword2 = !showPassword2"
+              type="checkbox"
+              class="h-3 w-3 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label for="remember" class="ml-2 block text-xs text-nile-blue">
+              Mostrar contraseña
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 mx-4 items-start justify-center">
+        <div class="col-span-1 flex justify-center items-center">
+          <button
+            (click)="goBack()"
+            type="submit"
+            class="border-2 border-nile-blue rounded-lg py-2 px-2 text-base text-nile-blue flex items-end justify-end hover:text-cameo hover:bg-nile-blue-200"
+          >
+            Volver al inicio
+          </button>
+        </div>
+        <div class="col-span-1 flex justify-center items-center">
+          <button
+            [disabled]="this.formPassword.invalid"
+            type="submit"
+            class="border-2 border-nile-blue rounded-lg py-2 px-2 text-base text-nile-blue flex items-end justify-end hover:text-cameo hover:bg-nile-blue-200"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

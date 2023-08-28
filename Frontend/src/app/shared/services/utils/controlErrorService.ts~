@@ -1,0 +1,45 @@
+import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ControlErrorService {
+  getErrorMessage( form: FormGroup,fieldName: string,fieldTittle: string): string {
+    const control = form.get(fieldName);
+    const errorMessages: { [key: string]: string | { [key: string]: string } } = {
+      required: `Se requiere ${fieldName}`,
+      minlength: 'Longitud de 10 caracteres requerida',
+      pattern: {
+        '^[0-9]*$': 'Solo se permiten números',
+        '^[0-9]{10}$': 'Longitud de 10 caracteres requerida',
+        '^[a-zA-Z]*$': 'Solo se permiten letras',
+        '^[a-zA-Z0-9]*$': 'Solo se permiten letras y números',
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]+$': 'La contraseña debe tener al menos una letra mayúscula, una letra minúscula y un número',
+        '^[a-zA-Z0-9-_]*$': 'Solo se permiten letras, números y guiones'
+      },
+      maxlength: 'Longitud de 10 caracteres requerida',
+      email: 'Formato de email no válido',
+      mismatch: 'Las contraseñas no coinciden',
+    };
+
+    if (control?.invalid) {
+      const errors = control.errors;
+      if (errors) {
+        for (const key in errors) {
+          if (errors.hasOwnProperty(key)) {
+            const errorValue = errors[key];
+            const errorMessage = errorMessages[key] || 'Formato no valido';
+            if (errorMessage && typeof errorMessage === 'object') {
+              const patternErrorMessage = errorMessage[errorValue?.requiredPattern || 'unknown'];
+              return patternErrorMessage || 'Formato no valido';
+            }
+            return errorMessage;
+          }
+        }
+      }
+    }
+
+    return '';
+  }
+}

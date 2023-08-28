@@ -1,0 +1,188 @@
+<div
+  class="transition ease-in-out delay-150 w-[95%] h-[90%] lg:h-[95%] lg:m-2 mx-4 my-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden duration-300 flex justify-center"
+>
+  <!-- Este es el sniper  -->
+  <!-- ===================================================== -->
+  <div *ngIf="loading" class="flex items-center justify-center">
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+    <div class="flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <div
+          class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary"
+        ></div>
+        <div class="flex items-center mt-2">
+          <span class="text-xl font-bold mr-1">Cargando</span>
+          <span class="text-xl animate-bounce">...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===================================================== -->
+  <div *ngIf="!this.loading" class="w-full">
+    <div
+      class="grid grid-cols-1 mx-4 text-center text-3xl font-bold text-camelot py-2"
+    >
+    Casos Asignados
+  </div>
+
+<div class="grid grid-cols-1 mx-4">
+      <div class="flex">
+        <input
+          [(ngModel)]="search"
+          class="mx-3 px-2 py-3 border-b-2 border-camelot rounded-lg bg-none text-camelot text-xs font-semibold tracking-wide  lg:w-[20%] focus:outline-none focus:border-camelot-400"
+          placeholder="Buscar por cédula, nombre"
+        />
+      </div>
+    </div>
+
+  <div class="w-full lg:h-auto px-4 py-2 rounded-lg shadow hidden lg:block">
+    <table class="w-full lg:h-[92%] my-2">
+      <thead class="bg-nile-blue-200 border-b-2 border-nile-blue text-cameo">
+        <tr>
+          <th class="p-3 text-sm font-semibold tracking-wide text-center">
+            Estudiante
+          </th>
+          <th class="p-3 text-sm font-semibold tracking-wide text-center">
+            Institución
+          </th>
+          <th class="p-3 text-sm font-semibold tracking-wide text-center">
+            
+              <label class="flex items-center justify-center">Acciones</label
+              >
+         
+          </th>
+        </tr>
+      </thead>
+      <tbody  *ngIf="casos" >
+        <!-- recorro casos y añado indice -->
+        <tr *ngFor="let caso of casos | filterTables : search">
+          
+          <td class="p-3 text-base text-black-100 tracking-wide text-left">
+            <div class="flex flex-col">
+              <span><strong>CI: </strong> {{ caso.CI}}</span>
+              <span><strong>Nombres: </strong> {{ caso.name }} {{ caso.lastName }}</span>
+            </div>
+          </td>
+          <td class="p-3 text-sm text-black-100 tracking-wide text-center">
+            {{ caso.institution }}
+          </td>
+          <td
+            class="p-3 text-sm text-black-100 tracking-wide flex items-center justify-center"
+          >
+            <!-- Si este esta en inactive se muestra una forma de boton en rojo  desahabilitado y dira Atendido-->
+            <div [ngSwitch]="caso.statusTestTeacher">
+              <div *ngSwitchCase="false">
+                <button
+                  [routerLink]="'../evaluar/' + caso.id"
+                  type="button"
+                  class="btnAccion"
+                >
+                  Evaluar
+                </button>
+              </div>
+              <div *ngSwitchCase="true">
+                <button type="button" class="btnAccion" disabled>
+                  Atendido
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="w-full lg:h-auto px-4 py-2 rounded-lg lg:hidden">
+    <div
+      class="w-full h-full flex flex-col mb-2 border border-camelot rounded-lg hover:shadow-sm hover:shadow-camelot-300"
+      *ngFor="let caso of casos | filterTables : search"
+    >
+      <div
+        class="w-full grid grid-cols-1 break-all items-center space-x-2 text-center text-camelot text-lg px-2 font-bold underline"
+      >
+        Evaluador
+      </div>
+      <!-- CI -->
+      <div
+        class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+      >
+        <div class="col-span-2 break-all font-bold text-camelot">CI:</div>
+        <div class="col-span-3 break-all text-nile-blue">
+          {{ caso.CIteacher }}
+        </div>
+      </div>
+      <!-- Nombre -->
+      <div
+        class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+      >
+        <div class="col-span-2 break-all font-bold text-camelot">Nombre:</div>
+        <div class="col-span-3 break-all text-nile-blue">
+          {{ caso.nameT }} {{ caso.lastNameT }}
+        </div>
+      </div>
+
+      <div
+        class="w-full grid grid-cols-1 break-all items-center space-x-2 text-center text-camelot text-lg px-2 font-bold underline"
+      >
+        Estudiante
+      </div>
+      <!-- CI -->
+      <div
+        class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+      >
+        <div class="col-span-2 break-all font-bold text-camelot">CI:</div>
+        <div class="col-span-3 break-all text-nile-blue">
+          {{ caso.CI }}
+        </div>
+      </div>
+      <!-- Nombre -->
+      <div
+        class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+      >
+        <div class="col-span-2 break-all font-bold text-camelot">Nombre:</div>
+        <div class="col-span-3 break-all text-nile-blue">
+          {{ caso.name }} {{ caso.lastName }}
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div
+        class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+      >
+        <div class="col-span-2 break-all font-bold text-camelot">
+          Institución
+        </div>
+        <div class="col-span-3 break-all text-nile-blue">
+          {{ caso.institution }}
+        </div>
+      </div>
+
+      <!-- Acciones -->
+
+      <div class="flex flex-row gap-2 justify-end my-2">
+        <div [ngSwitch]="caso.statusTestTeacher">
+          <div *ngSwitchCase="false">
+            <button
+              [routerLink]="'../evaluar/' + caso.id"
+              type="button"
+              class="btnAccion"
+            >
+              Evaluar
+            </button>
+          </div>
+          <div *ngSwitchCase="true">
+            <button type="button" class="btnAccion" disabled>Atendido</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!casos"
+    class=" mx-4 flex bg-red-700 text-red text-xl rounded-lg font-bold items-center justify-center py-2 text-center"
+  >
+    No hay datos para mostrar
+  </div>
+
+</div>

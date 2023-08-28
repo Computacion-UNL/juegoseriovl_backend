@@ -1,0 +1,195 @@
+<div
+  class="transition ease-in-out delay-150 w-[95%] h-[90%] lg:h-[95%] lg:m-2 mx-4 my-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden duration-300 flex justify-center"
+>
+  <!-- Este es el sniper  -->
+  <!-- ===================================================== -->
+  <div *ngIf="loading" class="flex items-center justify-center">
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+    <div class="flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <div
+          class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary"
+        ></div>
+        <div class="flex items-center mt-2">
+          <span class="text-xl font-bold mr-1">Cargando</span>
+          <span class="text-xl animate-bounce">...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===================================================== -->
+  <div *ngIf="!this.loading" class="w-full">
+    <div
+      class="grid grid-cols-1 mx-4 text-center text-3xl font-bold text-camelot my-5"
+    >
+      Gestión del test docente
+    </div>
+
+    <div class="grid grid-cols-1 mx-4">
+      <div class="flex">
+        <input
+          [(ngModel)]="search"
+          class="mx-3 px-2 py-3 border-b-2 border-camelot rounded-lg bg-none text-camelot text-xs font-semibold tracking-wide  lg:w-[20%] focus:outline-none focus:border-camelot-400"
+          placeholder="Buscar por nombre, tipo..."
+        />
+
+        <button
+          [routerLink]="'../registrar'"
+          type="button"
+          class="px-2 py-3 bg-nile-blue text-cameo text-xs font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+        >
+          Registrar Pregunta
+        </button>
+      </div>
+    </div>
+
+    <div class="w-full lg:h-auto px-4 py-2 rounded-lg shadow hidden lg:block">
+      <table class="* w-full lg:h-[85%] my-2">
+        <thead class="bg-nile-blue-200 border-b-2 border-nile-blue text-cameo">
+          <tr>
+            <th class="p-3 text-sm font-semibold tracking-wide text-center">
+              Nombre
+            </th>
+            <th class="p-3 text-sm font-semibold tracking-wide text-center">
+              Tipo
+            </th>
+            <th class="p-3 text-sm font-semibold tracking-wide text-center">
+              Respuestas
+            </th>
+            <th class="p-3 text-sm font-semibold tracking-wide text-center">
+              <label class="flex items-center justify-center">Acciones</label>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="question.length > 0">
+          <tr
+            class="bg-nile-blue-100 border-b border-nile-blue-200 text-camelot"
+            *ngFor="let pregunta of question | filterTables : search"
+          >
+            <td class="p-3 text-sm text-black-100 tracking-wide text-left">
+              {{ pregunta.nameQuestion }}
+            </td>
+            <td class="p-3 text-sm text-black-100 tracking-wide text-left">
+              {{ pregunta.descriptionQuestion }}
+            </td>
+            <td class="p-3 text-sm text-black-100 tracking-wide text-left">
+              <div
+                class="grid grid-cols-3"
+                *ngFor="let respuesta of pregunta.answer"
+              >
+                <div class="col-span-2 text-camelot text-sm font-semibold">
+                  {{ respuesta.nameAnswer }}:
+                </div>
+                <div class="col-span-1 text-nile-blue text-sm">
+                  {{ respuesta.valueAnswer }}
+                </div>
+              </div>
+            </td>
+
+            <td
+              class="p-3 text-sm text-black-100 tracking-wide text-center flex flex-row items-center justify-center"
+            >
+              <button
+                [routerLink]="'../editar/' + pregunta._id"
+                type="button"
+                class="px-2"
+                title="Editar pregunta"
+              >
+                <i
+                  class="fa-solid fa-pen-to-square text-3xl text-nile-blue-200 hover:text-camelot-400"
+                ></i>
+              </button>
+              <button
+                (click)="delete(pregunta._id)"
+                type="button"
+                class="px-2"
+                title="Eliminar pregunta"
+              >
+                <i
+                  class="fa fa-trash text-3xl text-red-500 font-bold hover:text-nile-blue"
+                ></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+
+    <div class="w-full lg:h-auto px-4 py-2 rounded-lg lg:hidden">
+      <div
+        class="w-full h-full flex flex-col mb-2 border border-camelot rounded-lg hover:shadow-sm hover:shadow-camelot-300"
+        *ngFor="let pregunta of question | filterTables : search"
+      >
+        <!-- Nombre -->
+        <div
+          class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+        >
+          <div class="col-span-2 break-all font-bold text-camelot">Nombre:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ pregunta.nameQuestion }}
+          </div>
+        </div>
+
+        <!-- Tipo -->
+        <div
+          class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+        >
+          <div class="col-span-2 break-all font-bold text-camelot">Tipo:</div>
+          <div class="col-span-3 break-all text-nile-blue">
+            {{ pregunta.descriptionQuestion }}
+          </div>
+        </div>
+
+        <!-- Respuestas -->
+        <div
+          class="w-full grid grid-cols-5 break-all items-left space-x-2 text pl-2 py-2 pr-2"
+        >
+          <div class="col-span-2 break-all font-bold text-camelot">
+            Respuestas:
+          </div>
+          <div class="col-span-3 break-all text-nile-blue">
+            <div
+              class="grid grid-cols-3"
+              *ngFor="let respuesta of pregunta.answer"
+            >
+              <div class="col-span-2 text-camelot text-sm font-semibold">
+                {{ respuesta.nameAnswer }}:
+              </div>
+              <div class="col-span-1 text-nile-blue text-sm">
+                {{ respuesta.valueAnswer }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+
+        <div class="flex flex-row gap-2 justify-end my-2">
+          <button
+            [routerLink]="'../editar/' + pregunta._id"
+            type="button"
+            class="border-2 border-camelot text-sm text-nile-blue bg-cameo rounded-lg px-2 py-1 mr-2"
+          >
+            Editar
+          </button>
+          <button
+            (click)="delete(pregunta._id)"
+            type="button"
+            class="border-2 border-camelot text-sm text-nile-blue bg-cameo rounded-lg px-2 py-1 mr-2"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+        *ngIf="question.length === 0"
+        class="mx-4 flex bg-red-700 text-red text-xl rounded-lg font-bold items-center justify-center py-2 text-center"
+      >
+        No hay datos para mostrar
+      </div>
+
+  </div>
+</div>

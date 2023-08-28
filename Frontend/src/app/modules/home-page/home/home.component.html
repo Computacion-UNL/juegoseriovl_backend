@@ -1,0 +1,124 @@
+<!-- Estructuracion del dashboard -->
+<div
+  class="lg:w-[100%] lg:h-[100vh] lg:min-w-full lg:min-h-screen grid grid-cols-1 lg:grid-cols-6 md:items-end items-end"
+>
+  <!-- Side Bar -->
+  <div
+    class="lg:w-full lg:h-[100%] md:w-[30%] md:h-[90vh] h-[90vh] w-[45%] z-50 fixed lg:static top-0 overflow-y-scroll lg:overflow-y-hidden bg-cameo col-span-1 p-2 border-r border-camelot-500 transition-all"
+    [ngClass]="{ '-left-full': !isMenuOpen, 'left-0': isMenuOpen }"
+  >
+    <!-- Nombre y Logotipo -->
+    <div
+      class="flex flex-col py-2 px-2 border-b border-camelot lg:h-[12%] whitespace-nowrap overflow-hidden"
+    >
+      <h1
+        class="text-sm text-left text-camelot font-bold tracking-[2px] items-center justify-center flex-col"
+      >
+        Rol:
+        <span
+          *ngIf="this.role === 'ADMIN'"
+          class="text-blue-600 font-bold tracking-[2px] items-center justify-center flex-col"
+          >Administrador</span
+        >
+        <span
+          *ngIf="this.role === 'TEACHER'"
+          class="text-blue-600 font-bold tracking-[2px] items-center justify-center flex-col"
+          >Docente</span
+        >
+        <span
+          *ngIf="this.role === 'DECE'"
+          class="text-blue-600 font-bold tracking-[2px] items-center justify-center flex-col"
+          >DECE</span
+        >
+      </h1>
+      <h1
+        class="text-sm text-left text-camelot font-bold tracking-[2px] items-center justify-center flex-col"
+      >
+        Nombre:
+        <span
+          class="text-blue-600 font-bold tracking-[2px] items-center justify-center flex-col cursor-pointer"
+          title="{{ this.name }}"
+          style="
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          "
+          >{{ this.name }}</span
+        >
+      </h1>
+    </div>
+
+    <div class="flex flex-col justify-between lg:h-[78%]">
+      <!-- Menu -->
+      <nav class="h-[80%] py-2 pl-2">
+        <ul class="menu-list">
+          <!-- Se presentan solo las opciones en donde this.rol sea igual a item.role -->
+          <ng-container *ngFor="let item of mainMenu">
+            <li class="flex items-center transition-transform transform-gpu hover:scale-95 active:scale-95 cursor-pointer" 
+            *ngIf="item.role === this.role">
+              <a
+                class="flex items-center gap-2  text-camelot-100 rounded-lg hover:bg-paarl hover:text-nile-blue py-2 px-4 "
+                (click)="goToView(item.router)" 
+              >
+                <i
+                  class="{{ item.icon }} text-camelot "
+                  (click)="toggleMenu()"
+                ></i>
+                {{ item.name }}
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </nav>
+      <!-- Image Layout -->
+      <div class="flex flex-col gap-4 h-[20%]">
+        <img
+          src="assets/Inicio/sideBar.svg"
+          alt="Otto"
+          class="w-[75%] h-[75%]"
+        />
+        <button
+          class="flex items-center gap-2 p-4 text-camelot-100 rounded-lg hover:bg-paarl hover:text-nile-blue transition-colors"
+          (click)="logouth()"
+        >
+          <i class="fas fa-sign-out-alt text-camelot"></i>
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- boton flotante para menu responsive -->
+  <button
+    class="flex w-10 h-10 items-center justify-center absolute bottom-9 right-5 md:bottom-16 md:right-7 p-3 lg:hidden rounded-full bg-camelot text-center m-1 z-10 shadow-white shadow-white/50 shadow-xl hover:shadow-cameo hover:shadow-cameo/50 "
+    [ngClass]="!isMenuOpen ? 'bg-opacity-90' : 'bg-opacity-50'"
+    (click)="toggleMenu()"
+  >
+    <i
+      class="flex fas text-white text-xl"
+      [ngClass]="{ 'fa-bars': !isMenuOpen, 'fa-circle-xmark': isMenuOpen }"
+    ></i>
+  </button>
+
+  <!-- Header y lazy load -->
+  <div class="col-span-5">
+    <header
+      class="flex w-full h-[10vh] bg-nile-blue items-center justify-center"
+    >
+      <h1 class="text-2xl text-center text-cameo font-bold px-4 uppercase">
+        <ng-container *ngIf="this.institution; else adminPanel">
+          Escuela {{ this.institution }}
+        </ng-container>
+        <ng-template #adminPanel> Panel de Administración </ng-template>
+      </h1>
+    </header>
+    <main class="w-full h-[90vh] flex flex-col flex-1 z-auto items-center justify-center relative">
+      <!-- Lazy loading -->
+      
+      <router-outlet  class="z-10 absolute inset-0"></router-outlet>
+    </main>
+    
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div
+  class="w-[95%] lg:h-[95%] m-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden"
+>
+  <div
+    class="w-full lg:h-[10%] text-center text-2xl font-bold text-camelot py-4 flex items-center justify-center"
+  >
+    Editar pregunta para el test del estudiante
+  </div>
+  <form
+    [formGroup]="this.formTestImages.form"
+    (ngSubmit)="update()"
+    class="w-full lg:h-[90%] py-2"
+    enctype="multipart/form-data"
+  >
+    <fieldset class="w-full flex flex-col items-center">
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Ingrese el nombre de la imagen: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            (mouseover)="
+              formTestImages.form.get('name')?.invalid &&
+                formTestImages.form.get('name')?.touched &&
+                notification.showTooltip(controlError.getErrorMessage(this.formTestImages.form ,'name'))
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="imagen"> Cargar imagen: </label>
+        </div>
+
+        <div class="flex flex-col col-span-1">
+          <div
+            class="w-full text-nile-blue text-lg flex items-center justify-center mt-1"
+          >
+            <input
+              type="file"
+              id="imagen"
+              formControlName="imagen"
+              (mouseover)="
+                formTestImages.form.get('imagen')?.invalid &&
+                  formTestImages.form.get('imagen')?.touched &&
+                  notification.showTooltip(controlError.getErrorMessage(this.formTestImages.form ,'imagen'))
+              "
+              (mouseout)="this.notification.close()"
+              class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+            />
+
+          </div>
+
+          <div
+            class="w-full text-nile-blue text-lg flex items-center justify-center mt-1"
+          >
+            <img
+              [src]="this.imageUrl"
+              alt="Imagen seleccionada"
+              *ngIf="this.imageUrl"
+              class="w-40 h-40"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="value"> Ingrese el valor de la imagen: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="name"
+            formControlName="valor"
+            (mouseover)="
+              formTestImages.form.get('valor')?.invalid &&
+                formTestImages.form.get('valor')?.touched &&
+                notification.showTooltip(controlError.getErrorMessage(this.formTestImages.form ,'valor'))
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="section"> Ingrese la sección a la que pertenece: </label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="name"
+            formControlName="section"
+            (mouseover)="
+              formTestImages.form.get('section')?.invalid &&
+                formTestImages.form.get('section')?.touched &&
+                notification.showTooltip(controlError.getErrorMessage(this.formTestImages.form ,'section'))
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+
+          
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid grid-cols-1 mb-4">
+        <div class="w-full flex text-camelot text-lg mr-2 mb-2 justify-end">
+          <!-- Cancelar -->
+          <button
+            type="button"
+            (click)="cancel()"
+          
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg lg:p-3 p-2 hover:bg-nile-blue hover:text-cameo mr-2"
+            >
+            Cancelar
+          </button>
+          <!-- Editar -->
+          <button
+            type="submit"
+            [disabled]="this.formTestImages.form.invalid || this.srcImage==='' || this.imagenTest===null"
+           
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg lg:p-3 p-2 hover:bg-nile-blue hover:text-cameo"
+            >
+            Editar
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>

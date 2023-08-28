@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MenuPrincipal.unity
+    guid: b639bff1faab81741b5fa6d947ff9c8d
+  - enabled: 1
+    path: Assets/Scenes/Juego.unity
+    guid: 3188c93e8cc88274fb24e082ac52a38a
+  - enabled: 1
+    path: Assets/Scenes/GestorCuentos.unity
+    guid: 1111ac33ce9894e4681235c7b9893423
+  - enabled: 1
+    path: Assets/Scenes/Cuento1.unity
+    guid: e0718d6d9564d0949877205f0a0ff661
+  - enabled: 1
+    path: Assets/Scenes/Cuento2.unity
+    guid: f77b3b16f37c08f4ba09ff286fa87728
+  - enabled: 1
+    path: Assets/Scenes/Casa.unity
+    guid: 71c28c76f11d67142962d4017c5f6f75
+  - enabled: 1
+    path: Assets/Scenes/Arbol.unity
+    guid: e2ab1521967ff574c932060b009b227f
+  - enabled: 1
+    path: Assets/Scenes/Mapa2.unity
+    guid: c056ee162052a5c44b1649727916dc26
+  - enabled: 1
+    path: Assets/Scenes/Results.unity
+    guid: 774374a23d395754b8c5658e0a967186
+  m_configObjects: {}

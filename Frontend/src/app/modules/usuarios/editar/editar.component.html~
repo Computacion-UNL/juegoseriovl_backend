@@ -1,0 +1,430 @@
+<div
+  class="w-[95%] lg:h-[95%] m-2 bg-cameo border-4 border-camelot rounded-lg overflow-x-hidden"
+>
+  <div
+    class="w-full lg:h-[10%] text-center text-2xl font-bold text-camelot py-4 flex items-center justify-center"
+  >
+    <label>Modificar </label>
+    <span *ngIf="user?.role === 'ADMIN'"> `Modificar Administrador`</span>
+    <span *ngIf="user?.role === 'DECE'"> `Modificar encargado del Dece`</span>
+    <span *ngIf="user?.role === 'TEACHER'"> `Modificar Docente`</span>
+  </div>
+
+  <form
+    *ngIf="this.user?.role === 'ADMIN'"
+    [formGroup]="this.formUser.form"
+    (ngSubmit)="update()"
+    class="w-full lg:h-[90%] py-2"
+  >
+    <fieldset class="w-full flex flex-col items-center">
+      <!-- Datos personales  -->
+      <div
+        class="lg:w-[60%] w-[80%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        <label>Datos personales</label>
+      </div>
+
+      <!-- CI -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">CI:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            #inputCI
+            formControlName="CI"
+            placeholder="Ingrese el CI"
+            (mouseover)="
+              formUser.form.get('CI')?.invalid &&
+                formUser.form.get('CI')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formUser.form, 'CI','Cédula')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <!-- Nombre -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Nombres:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Ingrese los nombres "
+            (mouseover)="
+              formUser.form.get('name')?.invalid &&
+                formUser.form.get('name')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formUser.form, 'name','Nombre')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Apellidos :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            placeholder="Ingrese los apellidos "
+            (mouseover)="
+              formUser.form.get('lastName')?.invalid &&
+                formUser.form.get('lastName')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formUser.form, 'lastName','Apellidos')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="address"> Dirección :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            class="form-control"
+            placeholder="Ingrese la dirección "
+            (mouseover)="
+              formUser.form.get('address')?.invalid &&
+                formUser.form.get('address')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formUser.form, 'address','Dirección')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Teléfono :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="text"
+            id="phone"
+            formControlName="phone"
+            class="form-control"
+            placeholder="Ingrese el teléfono "
+            (mouseover)="
+              formUser.form.get('phone')?.invalid &&
+                formUser.form.get('phone')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formUser.form, 'phone','Teléfono')
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">Correo electrónico :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Ingrese el correo electrónico "
+            (mouseover)="
+              formUser.form.get('email')?.invalid &&
+                formUser.form.get('email')?.touched &&
+                notification.showTooltip(
+                  controlError.getErrorMessage(this.formUser.form, 'email','Correo'))
+                )
+            "
+            (mouseout)="this.notification.close()"
+            class="w-full border-2 border-camelot rounded-lg focus:ring-camelot-400 focus:border-camelot-400 pl-3 py-1"
+          />
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid grid-cols-1 mb-4">
+        <div class="w-full flex text-camelot text-lg mr-2 mb-2 justify-end">
+          <button
+            [disabled]="this.formUser.form.invalid || this.notMatch"
+            type="submit"
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg p-2 hover:bg-nile-blue hover:text-cameo"
+          >
+            Registrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Datos Inició  -->
+      <div
+        class="lg:w-[60%] w-[80%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        <label>Acceso al inicio de sesión</label>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 my-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">Estado:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <div class="flex items-center justify-center">
+            <button
+              (click)="changedStatusUser(user?.id, !user.status)"
+              type="button"
+              class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg p-2 flex items-center justify-center hover:bg-nile-blue hover:text-cameo"
+              [style.textAlign]="user?.status ? 'left' : 'right'"
+              title="Cambiar estado"
+            >
+              <ng-container *ngIf="user?.status; else offState">
+                <i
+                  class="fa fa-circle text-2xl font-bold text-avocado text-opacity-70"
+                ></i>
+                <span class="ml-2">ON</span>
+              </ng-container>
+              <ng-template #offState>
+                <span class="mr-2">OFF</span>
+                <i class="fa fa-circle text-2xl font-bold text-red-500"></i>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">Renovar Contraseña:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <div class="flex items-center justify-center">
+            <button
+              type="button"
+              (click)="changePassword(user?.id)"
+              class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg p-2 hover:bg-nile-blue hover:text-cameo"
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="lg:w-[60%] w-[80%] grid grid-cols-1 mb-4">
+        <div class="w-full flex text-camelot text-lg mr-2 mb-2 justify-end">
+          <!-- Cancelar (click)="cancel()" -->
+          <button
+            type="button"
+            (click)="cancel()"
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg p-2 hover:bg-nile-blue hover:text-cameo mr-2"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <!-- ============================================ -->
+  <div *ngIf="this.user?.role !== 'ADMIN'" class="w-full lg:h-[90%] py-2">
+    <fieldset class="w-full flex flex-col items-center">
+      <!-- Datos personales  -->
+      <div
+        class="lg:w-[60%] w-[80%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        <label>Datos personales</label>
+      </div>
+
+      <!-- CI -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">CI:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <label>
+            {{ this.user?.ciUser }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Nombre -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Nombres:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <label>
+            {{ this.user?.nameUser }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Apellidos :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <label>
+            {{ this.user?.lastNameUser }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="address"> Dirección :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <label>
+            {{ this.user?.addressUser }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name"> Teléfono :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <label>
+            {{ this.user?.phoneUser }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">Correo electrónico :</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <label>
+            {{ this.user?.emailUser }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Datos Inició  -->
+      <div
+        class="lg:w-[60%] w-[80%] text-start text-lg font-bold text-camelot-400 border-b-2 border-camelot flex items-center"
+      >
+        <label>Acceso al inicio de sesión</label>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 my-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">Estado:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <div class="flex items-center justify-center">
+            <button
+              (click)="changedStatusUser(user.id, !user.status)"
+              type="button"
+              class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg p-2 flex items-center justify-center hover:bg-nile-blue hover:text-cameo"
+              [style.textAlign]="user?.status ? 'left' : 'right'"
+              title="Cambiar estado"
+            >
+              <ng-container *ngIf="user?.status; else offState">
+                <i
+                  class="fa fa-circle text-2xl font-bold text-avocado text-opacity-70"
+                ></i>
+                <span class="ml-2">ON</span>
+              </ng-container>
+              <ng-template #offState>
+                <span class="mr-2">OFF</span>
+                <i class="fa fa-circle text-2xl font-bold text-red-500"></i>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid lg:grid-cols-2 mb-4 grid-cols-1">
+        <div class="w-full col-span-1 text-camelot text-lg mt-2 py-1 text-left">
+          <label for="name">Renovar Contraseña:</label>
+        </div>
+        <div
+          class="w-full col-span-1 text-nile-blue text-lg flex items-center justify-center mt-1"
+        >
+          <div class="flex items-center justify-center">
+            <button
+              type="button"
+              (click)="changePassword(user?.id)"
+              class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg p-2 hover:bg-nile-blue hover:text-cameo"
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:w-[60%] w-[80%] grid grid-cols-1 mb-4">
+        <div class="w-full flex text-camelot text-lg mr-2 mb-2 justify-end">
+          <!-- Cancelar (click)="cancel()" -->
+          <button
+            type="button"
+            (click)="cancel()"
+            class="border-2 border-camelot lg:text-lg text-nile-blue bg-cameo rounded-lg lg:p-3 p-2 hover:bg-nile-blue hover:text-cameo mr-2"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
