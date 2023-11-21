@@ -1,6 +1,6 @@
 <div align="center">
 
-<img alt="Carrera de Ingeniería en Sistemas/Computación" src="cis.jpeg" width="200" /> 
+<img alt="Carrera de Ingeniería en Sistemas/Computación" src="[cis.jpeg](https://github.com/Computacion-UNL/dislalia/blob/main/cis.jpeg?raw=true)" width="200" /> 
 
 # Prototipo de juego serio para la prevención temprana de la violencia sexual infantil en estudiantes de primer grado de la escuela municipal Dr. Ángel Felicísimo Rojas
 
